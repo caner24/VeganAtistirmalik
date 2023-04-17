@@ -5,18 +5,19 @@
         <ul class="list-unstyled cd-hero-slider autoplay">
 
 
-            <li class="selected" style="background-image:url('images/slides/slide3.jpg');">
+            <li class="selected"
+                style="background-image:url('https://i.pinimg.com/originals/dd/46/36/dd4636087f4d7f8bc1f0dbbf84e9fc8a.gif');">
                 <div class="container">
 
-                    <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In consequatur cumque natus!</h2>
-                    <a href="#" class="btn btn-primary btn-lg text-uppercase">Hello World</a>
+                    <h2>Primal Pantry Barlari Burada Acele Et Kaçırma !.</h2>
+                    <a href="#" class="btn btn-primary btn-lg text-uppercase">HEMEN AL</a>
                 </div>
             </li>
-            <li style="background-image:url('images/slides/slide3.jpg');">
+            <li style="background-image:url('https://www.mark-mark.at/wp-content/uploads/2019/08/Viva_Riegel-1.gif');">
                 <div class="container">
 
-                    <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In consequatur cumque natus!</h2>
-                    <a href="#" class="btn btn-primary btn-lg text-uppercase">Hello World</a>
+                    <h2>Viva Meyve Barları BURADA Acele Et Kaçırma</h2>
+                    <a href="#" class="btn btn-primary btn-lg text-uppercase">HEMEN AL</a>
                 </div>
             </li>
 
@@ -53,7 +54,8 @@
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-6 text-center wow bounceIn">
-                            <img alt="" class="img-responsive img-circle" src="images/other/corporate.jpg">
+                            <img alt="" class="img-responsive img-circle"
+                                src="https://media.tenor.com/8xlDcHVJmS0AAAAC/vegan-organic.gif">
                         </div>
 
                         <div class="col-md-6 wow fadeIn">
@@ -451,8 +453,5 @@
     <!-- CALL TO ACTION END -->
 @endsection
 @section('shopping-cart')
-
-        Cart ({{ $cartCount }})
-
+    Cart ({{ $cartCount }})
 @endsection
-

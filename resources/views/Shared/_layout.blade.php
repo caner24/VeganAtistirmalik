@@ -12,7 +12,7 @@
     <meta name="author" content="">
 
     <!-- TITLE -->
-    <title>Edura - Multipurpose Website Template</title>
+    <title>VeganAtistirmalik</title>
 
     <!-- FAVICON -->
     <link rel="shortcut icon" href="images/favicon.png" />

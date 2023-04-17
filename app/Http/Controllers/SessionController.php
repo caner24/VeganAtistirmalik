@@ -18,7 +18,13 @@ class SessionController extends Controller
             ]);
         }
 
-        return redirect()->to('/');
+        auth()->attempt(request(['email', 'password']));
+        if (auth()->user()->isdisable == 1) {
+            echo 'hesap devre dışı';
+            auth()->logout();
+        } else {
+            return redirect()->to('/');
+        }
     }
 
     public function destroy()

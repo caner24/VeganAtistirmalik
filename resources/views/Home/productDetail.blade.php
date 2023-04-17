@@ -75,7 +75,7 @@
 
                                         <div class="padding15">
 
-                                            <form  method="POST" action="{{ route('addcart') }}">
+                                            <form method="POST" action="{{ route('addcart') }}">
                                                 @csrf
                                                 <input type="text" name="prodId" id="prodId" hidden
                                                     value="{{ $value->id }}">
@@ -87,12 +87,12 @@
                                                     </div>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary"><i
-                                                        class="fa fa-cart-plus fa-fw"></i> Add to cart</button>
+                                                        class="fa fa-cart-plus fa-fw"></i>Sepete Ekle</button>
                                             </form>
 
                                         </div>
 
-                                        <p><b>Category:</b> <a href="#">Computers</a></p>
+                                        <p><b>Kategori:</b> <a href="#">{{ $productCategory[0]->Name }}</a></p>
 
                                     </div>
                             </div>
@@ -264,105 +264,40 @@
                         <div class="col-md-12">
 
                             <div class="text-center">
-                                <h3>RELATED <b>PRODUCTS</b></h3>
+                                <h3>SON EKLENEN <b>ÜRÜNLER</b></h3>
                             </div>
 
                             <div id="products-carousel" class="owl-carousel">
 
-                                <div>
-                                    <div class="text-center product-item">
-                                        <div class="product-item-top">
-                                            <img alt="" class="img-responsive"
-                                                src="images/products/product1_thumb.jpg">
-                                            <div class="mask"></div>
-                                            <ul class="list-unstyled list-inline">
-                                                <li><a href="#"><i class="fa fa-link fa-fw"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-cart-plus fa-fw"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="product-item-inner">
-                                            <h3 class="product-title"><a href="#">Photo Camera</a></h3>
-                                            <p class="product-price">$129</p>
+                                @foreach ($releatedProduct as $key => $value)
+                                    <div>
+                                        <div class="text-center product-item">
+                                            <div class="product-item-top">
+                                                <img alt="" class="img-responsive"
+                                                    src="images/{{ $releatedImage[$key]->Path }}">
+                                                <div class="mask"></div>
+                                                <ul class="list-unstyled list-inline">
+                                                    <li><a href="{{ route('urundetay', ['id' => $value->id]) }}"><i
+                                                                class="fa fa-link fa-fw"></i></a></li>
+                                                    <li>
+                                                        <form method="POST" action="{{ route('addcart') }}">
+                                                            @csrf <input type="text" name="prodId" id="prodId"
+                                                                hidden value="{{ $value->id }}">
+                                                            <button type="submit"><i
+                                                                    class="fa fa-cart-plus fa-fw"></i></button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-item-inner">
+                                                <h3 class="product-title"><a href="#">{{ $value->ProductName }}</a>
+                                                </h3>
+                                                <p class="product-price">{{ $releatedProductdet[$key]->UnitPrice }}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div>
-                                    <div class="text-center product-item">
-                                        <div class="product-item-top">
-                                            <img alt="" class="img-responsive"
-                                                src="images/products/product3_thumb.jpg">
-                                            <div class="mask"></div>
-                                            <ul class="list-unstyled list-inline">
-                                                <li><a href="#"><i class="fa fa-link fa-fw"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-cart-plus fa-fw"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="product-item-inner">
-                                            <h3 class="product-title"><a href="#">Sofa</a></h3>
-                                            <p class="product-price">$519</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="text-center product-item">
-                                        <div class="product-item-top">
-                                            <img alt="" class="img-responsive"
-                                                src="images/products/product4_thumb.jpg">
-                                            <div class="mask"></div>
-                                            <ul class="list-unstyled list-inline">
-                                                <li><a href="#"><i class="fa fa-link fa-fw"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-cart-plus fa-fw"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="product-item-inner">
-                                            <h3 class="product-title"><a href="#">Hand Bag</a></h3>
-                                            <p class="product-price">$99</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="text-center product-item">
-                                        <div class="product-item-top">
-                                            <img alt="" class="img-responsive"
-                                                src="images/products/product1_thumb.jpg">
-                                            <div class="mask"></div>
-                                            <ul class="list-unstyled list-inline">
-                                                <li><a href="#"><i class="fa fa-link fa-fw"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-cart-plus fa-fw"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="product-item-inner">
-                                            <h3 class="product-title"><a href="#">Photo Camera</a></h3>
-                                            <p class="product-price">$29</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="text-center product-item">
-                                        <div class="product-item-top">
-                                            <img alt="" class="img-responsive"
-                                                src="images/products/product2_thumb.jpg">
-                                            <div class="mask"></div>
-                                            <ul class="list-unstyled list-inline">
-                                                <li><a href="#"><i class="fa fa-link fa-fw"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-cart-plus fa-fw"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="product-item-inner">
-                                            <h3 class="product-title"><a href="#">Wood Chair</a></h3>
-                                            <p class="product-price">$29</p>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
                             <!-- carousel end -->

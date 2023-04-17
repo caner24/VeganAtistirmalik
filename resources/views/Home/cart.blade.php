@@ -50,21 +50,21 @@
                                     @foreach ($productList as $key => $value)
                                         <tr>
                                             <td><img alt="" class="img-responsive product-thumb"
-                                                    src="images/products/product1_thumb.jpg"></td>
+                                                    src="images/{{ $photoPathList[$key] }}">
+                                            </td>
                                             <td>
                                                 <a
                                                     href="{{ route('urundetay', ['id' => $value[0]->id]) }}">{{ $value[0]->ProductName }}</a>
 
                                             </td>
-                                            <td>$59</td>
+                                            <td>{{ $productDetList[$key] }}</td>
                                             <td>
                                                 <div class="form-group">
                                                     <input type="number" class="form-control" value="1" min="1"
                                                         step="1">
                                                 </div>
                                             </td>
-                                            <td>$59</td>
-
+                                            <td>{{ $productDetList[$key] }}</td>
                                             <td>
                                                 <form method="POST" action="{{ route('cartRemove') }}">
                                                     @csrf <input type="text" name="prodId" id="prodId" hidden
@@ -76,15 +76,9 @@
                                     @endforeach
                                 @endif
                             </tbody>
-
                         </table>
-
                     </div>
 
-                    <div class="text-right">
-                        <a href="#" class="btn btn-default"><i class="fa fa-refresh fa-fw"></i> Update
-                            Cart</i></a>
-                    </div>
 
                 </div>
                 <!-- cart contents end -->
