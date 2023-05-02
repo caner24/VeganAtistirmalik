@@ -20,8 +20,15 @@ class SessionController extends Controller
 
         auth()->attempt(request(['email', 'password']));
         if (auth()->user()->isdisable == 1) {
-            echo 'hesap devre dışı';
+
+            $userId = auth()->user()->id;
+            if (auth()->user()->isrequest == 1) {
+                $durum = 1;
+            } else {
+                $durum = 0;
+            }
             auth()->logout();
+            return view("Home.disabled", ['durum' =>  $durum, "userId" => $userId]);
         } else {
             return redirect()->to('/');
         }

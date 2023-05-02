@@ -82,8 +82,9 @@
                                                 <div class="form-group qty">
                                                     <div class="input-group">
                                                         <span class="input-group-addon">Qty</span>
-                                                        <input type="number" size="4" class="form-control"
-                                                            value="1" min="1" step="1">
+                                                        <input name="count" type="number" size="4"
+                                                            class="form-control" value="1" min="1"
+                                                            step="1">
                                                     </div>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary"><i
@@ -107,9 +108,8 @@
 
 
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#description">Description</a></li>
-                                <li><a data-toggle="tab" href="#spec">Specifications</a></li>
-                                <li><a data-toggle="tab" href="#reviews">Reviews (3)</a></li>
+                                <li class="active"><a data-toggle="tab" href="#description">Besin Değeri</a></li>
+                                <li><a data-toggle="tab" href="#reviews">Yorumlar</a></li>
                             </ul>
 
 
@@ -117,139 +117,80 @@
 
                                 <!-- description tab start -->
                                 <div id="description" class="tab-pane fade in active">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget leo
-                                        at velit imperdiet varius. In eu ipsum vitae velit congue iaculis vitae at
-                                        risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-                                        vitae vehicula enim. Sed quis ante quis eros maximus dignissim a eu mi.
-                                        Proin varius arcu metus.</p>
-                                    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
-                                        turpis egestas. Duis a hendrerit risus. In non tristique libero.
-                                        Pellentesque elementum justo at diam feugiat lobortis.</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget leo
-                                        at velit imperdiet varius. In eu ipsum vitae velit congue iaculis vitae at
-                                        risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-                                        vitae vehicula enim. Sed quis ante quis eros maximus dignissim a eu mi.
-                                        Proin varius arcu metus.</p>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Besin Değeri</th>
+                                                <th>100g /ml</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>100kcal</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!-- description tab end -->
-
-                                <!-- Specifications tab start -->
-                                <div id="spec" class="tab-pane fade">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-hover">
-                                            <tr>
-                                                <td><b>Display</b></td>
-                                                <td>15.6"</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Processor</b></td>
-                                                <td>Intel i7</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>RAM Memory</b></td>
-                                                <td>8 GB</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Hard Disk</b></td>
-                                                <td>1 TB</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Color</b></td>
-                                                <td>Black</td>
-                                            </tr>
-
-                                        </table>
-                                    </div>
-                                </div>
-                                <!-- Specifications tab end -->
 
                                 <!-- reviews tab start -->
                                 <div id="reviews" class="tab-pane fade">
 
                                     <div class="reviews-list">
+                                        @foreach ($reviews as $key => $value)
+                                            <div class="media">
+                                                <a class="media-left" href="#">
+                                                    <img alt="" class="img-circle avatar"
+                                                        src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png">
+                                                </a>
+                                                <div class="media-body">
+                                                    <p class="pull-right"><small><i class="fa fa-star"></i><i
+                                                                class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                                                class="fa fa-star"></i><i class="fa fa-star"></i></small>
+                                                    </p>
 
-                                        <div class="media">
-
-                                            <a class="media-left" href="#">
-                                                <img alt="" class="img-circle avatar"
-                                                    src="images/team/thumb8_40.jpg">
-                                            </a>
-                                            <div class="media-body">
-                                                <p class="pull-right"><small><i class="fa fa-star"></i><i
-                                                            class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                            class="fa fa-star"></i><i class="fa fa-star"></i></small></p>
-                                                <h4 class="media-heading">John Doe <small>2 days ago</small></h4>
-                                                At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                                blanditiis praesentium voluptatum deleniti atque corrupti quos
-                                                dolores et quas molestias excepturi sint occaecati cupiditate non
-                                                provident, similique sunt in culpa qui officia deserunt mollitia
-                                                animi, id est laborum et dolorum fuga.
+                                                    <h4 class="media-heading">{{ $userList[$key] }}</h4>
+                                                    {{ $value->CommentText }}
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="media">
-
-                                            <a class="media-left" href="#">
-                                                <img alt="" class="img-circle avatar"
-                                                    src="images/team/thumb5_40.jpg">
-                                            </a>
-                                            <div class="media-body">
-                                                <p class="pull-right"><small><i class="fa fa-star"></i><i
-                                                            class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                            class="fa fa-star"></i><i class="fa fa-star"></i></small></p>
-                                                <h4 class="media-heading">Sarah Smith<small>4 days ago</small></h4>
-                                                Nunc risus ex, tempus quis purus ac, tempor consequat ex. Vivamus
-                                                sem magna, maximus at est id, maximus aliquet nunc. Suspendisse
-                                                lacinia velit a eros porttitor, in interdum ante faucibus.
-                                            </div>
-                                        </div>
-
-                                        <div class="media">
-
-                                            <a class="media-left" href="#">
-                                                <img alt="" class="img-circle avatar"
-                                                    src="images/team/thumb3_40.jpg">
-                                            </a>
-                                            <div class="media-body">
-                                                <p class="pull-right"><small><i class="fa fa-star"></i><i
-                                                            class="fa fa-star"></i><i class="fa fa-star"></i><i
-                                                            class="fa fa-star"></i><i class="fa fa-star"></i></small></p>
-                                                <h4 class="media-heading">Jane Doe<small>5 days ago</small></h4>
-                                                Temporibus autem quibusdam et aut officiis debitis aut rerum
-                                                necessitatibus saepe eveniet ut et voluptates repudiandae sint et
-                                                molestiae non recusandae.
-                                            </div>
-                                        </div>
+                                        @endforeach
 
                                     </div>
 
                                     <div class="page-header">
-                                        <h4>ADD A <b>REVIEW</b></h4>
+                                        <h4>YORUM <b>EKLE</b></h4>
                                     </div>
 
-                                    <p class="text-muted">You must be logged in to add a review.</p>
 
-                                    <form>
-                                        <div class="row">
-                                            <div class="form-group col-xs-6">
-                                                <input type="text" class="form-control input-lg" placeholder="Name*"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-xs-6">
-                                                <input type="email" class="form-control input-lg" placeholder="Email*"
-                                                    required>
-                                            </div>
+                                    @if (auth()->user())
+                                        <form method="POST" action="{{ route('setComment') }}">
+                                            @csrf
+                                            <div class="row">
 
-                                            <div class="form-group col-xs-12">
-                                                <textarea class="form-control" rows="6" placeholder="Review*" required></textarea>
-                                            </div>
+                                                <input type="text" hidden name="productId" value="{{ $productId }}">
+                                                <input type="text" hidden name="userId"
+                                                    value="{{ auth()->user()->id }}">
+                                                <div class="form-group col-xs-6">
+                                                    <input type="text" name="userName" class="form-control input-lg"
+                                                        placeholder="Name*" value="{{ auth()->user()->name }}" disabled>
+                                                </div>
+                                                <div class="form-group col-xs-6">
+                                                    <input type="email" class="form-control input-lg" placeholder="Email*"
+                                                        value="{{ auth()->user()->email }}" disabled>
+                                                </div>
+                                                <div class="form-group col-xs-12">
+                                                    <textarea class="form-control" rows="6" name="commentText" placeholder="Yazilacak Metin*" required></textarea>
+                                                </div>
 
-                                            <div class="form-group col-xs-12 text-right">
-                                                <button type="submit" class="btn btn-primary"><i
-                                                        class="fa fa-check fa-fw"></i> SUBMIT REVIEW</button>
+                                                <div class="form-group col-xs-12 text-right">
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                            class="fa fa-check fa-fw"></i> Gönder</button>
+                                                </div>
+
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    @else
+                                        <p class="text-muted">Yorum yapmak için giriş yapmaniz gerekmektedir.</p>
+                                    @endif
 
                                 </div>
                                 <!-- reviews tab end -->
@@ -292,7 +233,7 @@
                                             <div class="product-item-inner">
                                                 <h3 class="product-title"><a href="#">{{ $value->ProductName }}</a>
                                                 </h3>
-                                                <p class="product-price">{{ $releatedProductdet[$key]->UnitPrice }}</p>
+                                                <p class="product-price">{{ $releatedProductdet[$key]->UnitPrice }}₺</p>
                                             </div>
                                         </div>
                                     </div>

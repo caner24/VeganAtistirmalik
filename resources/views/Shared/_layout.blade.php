@@ -28,6 +28,7 @@
 
     <!-- LOAD DEMO CSS -->
     <link href="/demo/demo.css" rel="stylesheet" type="text/css">
+    
 
 </head>
 
@@ -46,8 +47,7 @@
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -65,47 +65,34 @@
                             </li>
 
                             <li class="dropdown">
-                                <a href="{{ route('urungetir') }}" class="dropdown-toggle" data-toggle="dropdown"
-                                    data-hover="dropdown" role="button" aria-haspopup="true"
-                                    aria-expanded="false">Ürünler</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ route('urungetir') }}">Tüm Ürünler</a></li>
-                                    <li><a href="about-us.html">Çikolata Barlari</a></li>
-                                    <li><a href="pricing.html">Diyet Ürünleri</a></li>
-                                </ul>
+                                <a href="{{ route('urungetir') }}" class="dropdown-toggle" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ürünler</a>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-                                    role="button" aria-haspopup="true" aria-expanded="false">Gizlilik</a>
-                            </li>
+
                             <li class="dropdown">
                                 <a href="{{ route('about') }}" class="dropdown-toggle">Hakkimizda</a>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-                                    role="button" aria-haspopup="true" aria-expanded="false">Bize Ulaşın</a>
-                            </li>
 
                             @if (auth()->check())
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                        data-hover="dropdown" role="button" aria-haspopup="true"
-                                        aria-expanded="false">{{ auth()->user()->name }}</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="about-us.html">Profilim</a></li>
-                                        <li><a href="{{ route('logout') }}">Cikis Yap</a></li>
-                                    </ul>
-                                </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ auth()->user()->name }}</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('useradress')}}">Profilim</a></li>
+                                    <li><a href="{{ route('logout') }}">Cikis Yap</a></li>
+                                </ul>
+                            </li>
+                            @if (auth()->user()->isAdmin==1)
+                            <li class="dropdown">
+                                <a href="{{ route('admin') }}" class="dropdown-toggle">admin</a>
+                            </li>
+                            @endif
                             @else{
-                                <li class="dropdown">
-                                    <a href="{{ route('login') }}" class="dropdown-toggle" data-hover="dropdown"
-                                        role="button" aria-haspopup="true" aria-expanded="false">Giriş Yap</a>
-                                </li>
-                                }
+                            <li class="dropdown">
+                                <a href="{{ route('login') }}" class="dropdown-toggle" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Giriş Yap</a>
+                            </li>
+                            }
                             @endif
                             <li class="dropdown">
-                                <a href="{{ route('showCart') }}" style="display: flex"><i
-                                        class="fa fa-shopping-cart fa-fw"></i>@yield('shopping-cart')</a>
+                                <a href="{{ route('showCart') }}" style="display: flex"><i class="fa fa-shopping-cart fa-fw"></i>@yield('shopping-cart')</a>
                             </li>
                         </ul>
 
@@ -123,7 +110,7 @@
         <section id="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <img src="images/edura-logo.png" alt="Edura - Multipurpose Website Template">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
                             Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis
@@ -139,25 +126,20 @@
                             <li><a href="#" class="linkedin"><i class="fa fa-linkedin linkedin"></i></a></li>
                         </ul>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <h4>PAGES</h4>
                         <ul class="list-unstyled">
-                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a href="#">HOME</a>
+                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a href="#">ANASAYFA</a>
                             </li>
-                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a href="#">ABOUT
-                                    US</a></li>
-                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a
-                                    href="#">SERVICES</a></li>
-                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a href="#">BLOG</a>
+                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a href="#">ÜRÜNLER</a></li>
+
+                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a href="#">HAKKIMIZDA</a>
                             </li>
-                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a
-                                    href="#">STORE</a></li>
-                            <li><i class="fa fa-caret-right fa-fw" aria-hidden="true"></i> <a href="#">PRIVACY
-                                    POLICY</a></li>
+
                         </ul>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <h4>CONTACT US</h4>
                         <p><i class="fa fa-map-pin fa-fw"></i> 379 5th Ave, New York, 10001, USA</p>
                         <p><i class="fa fa-phone fa-fw"></i> +(112) 345 6879</p>
@@ -165,30 +147,10 @@
                         <p><i class="fa fa-envelope fa-fw"></i> hello@example.com</p>
                     </div>
 
-                    <div class="col-md-3">
-                        <h4>NEWSLETTER</h4>
-                        <p>Subscribe to our monthly newsletter and stay updated with the latest news and info.</p>
-                        <form action="#" method="post">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
-                                    <input type="email" class="form-control" id="email"
-                                        placeholder="Your Email Address" required>
-                                </div>
-                            </div>
-                            <div class="form-group pull-right">
-                                <button type="submit" class="btn btn-primary">Subscribe</button>
-                            </div>
-                        </form>
-                    </div>
+
                 </div>
 
-                <div class="row">
-                    <hr>
-                    <div class="col-md-12 text-center bottom">
-                        <p>Copyright &copy; 2016 Codeniner. All rights reserved.</p>
-                    </div>
-                </div>
+
             </div>
         </section>
         <!-- FOOTER END -->
@@ -198,9 +160,7 @@
     <!-- WRAPPER END -->
 
     <!-- back to top button -->
-    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button"
-        title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span
-            class="glyphicon glyphicon-chevron-up"></span></a>
+    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
 
 
 

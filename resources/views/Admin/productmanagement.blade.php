@@ -3,13 +3,7 @@
 @section('content')
     <div id="page-wrapper">
         <div id="page-inner">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Forms Page</h2>
-                    <h5>Welcome Jhon Deo , Love to see you back. </h5>
-
-                </div>
-            </div>
+         
             <hr />
             <div class="row">
                 <div class="col-md-12">

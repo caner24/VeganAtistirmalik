@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("ProductName");
             $table->unsignedBigInteger("OwnerId");
             $table->foreign("OwnerId")->references("id")->on("owner");
+            $table->boolean('isStock')->default(0);
             $table->timestamps();
         });
     }

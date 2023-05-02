@@ -28,15 +28,16 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="index.html">{{ auth()->user()->name }}</a>
+                <a class="navbar-brand" href="{{route('admin')}}">{{ auth()->user()->name }}</a>
             </div>
             <div style="color: white;
 padding: 15px 50px 5px 50px;
 float: right;
-font-size: 16px;"> Last access : 30 May
-                2014 &nbsp;
-
+font-size: 16px;">
+                {{ Carbon\Carbon::now()->toDateTimeString() }} &nbsp;
+                <a href="{{ route('urungetir') }}" class="btn btn-success square-btn-adjust">Mağaza</a>
                 <a href="{{ route('logout') }}" class="btn btn-danger square-btn-adjust">Logout</a>
+
             </div>
         </nav>
         <!-- /. NAV TOP  -->
@@ -50,16 +51,20 @@ font-size: 16px;"> Last access : 30 May
                         <a id="dashboard" href="{{ route('admin') }}"><i class="fa fa-dashboard fa-3x"></i>Dashboard</a>
                     </li>
                     <li>
-                        <a id="ürünyönetim" href="{{ route('urunyönetim') }}"><i class="fa fa-edit fa-3x"></i> Forms
+                        <a id="ürünyönetim" href="{{ route('urunyönetim') }}"><i class="fa fa-edit fa-3x"></i> Ürün Ekle
                         </a>
                     </li>
                     <li>
-                        <a id="userManagement" href="{{ route('userlist') }}"><i class="fa fa-table fa-3x"></i>Kullanici
+                        <a id="userManagement" href="{{ route('userlist') }}"><i class="fa fa-user fa-3x"></i>Kullanici
                             Yönetimi</a>
                     </li>
                     <li>
-                        <a id="productManagement" href="{{ route('urunstok') }}"><i class="fa fa-table fa-3x"></i>Ürün Stok
+                        <a id="productManagement" href="{{ route('urunstok') }}"><i class="fa fa-table fa-3x"></i>Ürün
+                            Stok
                             Yönetimi</a>
+                    </li>
+                    <li>
+                        <a id="commentManagement" href="{{ route('getComment') }}"><i class="fa fa-comment fa-3x"></i>Yorumlar</a>
                     </li>
                 </ul>
             </div>

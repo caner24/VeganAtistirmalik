@@ -13,5 +13,6 @@ class Product extends Model
     protected $fillable = [
         'ProductName',
         'OwnerId',
+        'isStock',
     ];
 }

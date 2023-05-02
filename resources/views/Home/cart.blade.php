@@ -58,13 +58,26 @@
 
                                             </td>
                                             <td>{{ $productDetList[$key] }}</td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="number" class="form-control" value="1" min="1"
-                                                        step="1">
-                                                </div>
-                                            </td>
-                                            <td>{{ $productDetList[$key] }}</td>
+
+                                            @if ($productCount[$key])
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="number" class="form-control"
+                                                            value="{{ $productCount[$key] }}" min="1" step="1">
+                                                    </div>
+                                                </td>
+                                                <td>{{ $productDetList[$key] * $productCount[$key] }}</td>
+                                            @else
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="number" class="form-control" value="1"
+                                                            min="1" step="1">
+                                                    </div>
+                                                </td>
+                                                <td>{{ $productDetList[$key] }}</td>
+                                            @endif
+
+
                                             <td>
                                                 <form method="POST" action="{{ route('cartRemove') }}">
                                                     @csrf <input type="text" name="prodId" id="prodId" hidden
@@ -74,17 +87,44 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                @endif
+
                             </tbody>
                         </table>
                     </div>
 
 
                 </div>
-                <!-- cart contents end -->
+                @foreach ($productList as $key => $value)
+                    @if ($key == $cartCount - 1)
+                        <div class="col-md-4">
+                            <div class="text-left">
+                                <h4>CART <b>TOTALS</b></h4>
+                            </div>
 
+                            <table class="table">
+                                <tr>
+                                    <th>Toplam Tutar</th>
+                                    <td>{{ $total }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Kargo</th>
+                                    <td>Ücretsiz</td>
+                                </tr>
+                                <tr>
+                                    <th>Order Total</th>
+                                    <td class="ordertotal">{{ $total }}</td>
+                                </tr>
+                            </table>
 
-                <!-- cart total start -->
+                            <div class="text-right">
+                                <a href="#" class="btn btn-primary btn-lg">Proceed to Checkout <i
+                                        class="fa fa-arrow-circle-right fa-fw"></i></a>
+                            </div>
+
+                        </div>
+                    @endif
+                @endforeach
+            @else
                 <div class="col-md-4">
                     <div class="text-left">
                         <h4>CART <b>TOTALS</b></h4>
@@ -92,25 +132,26 @@
 
                     <table class="table">
                         <tr>
-                            <th>Cart Subtotal</th>
-                            <td>$283</td>
+                            <th>Toplam Tutar</th>
+                            <td>0₺</td>
                         </tr>
                         <tr>
-                            <th>Shipping</th>
-                            <td>Free</td>
+                            <th>Kargo</th>
+                            <td>Ücretsiz</td>
                         </tr>
                         <tr>
                             <th>Order Total</th>
-                            <td class="ordertotal">$283</td>
+                            <td class="ordertotal">0₺</td>
                         </tr>
                     </table>
 
                     <div class="text-right">
-                        <a href="#" class="btn btn-primary btn-lg">Proceed to Checkout <i
+                        <a href="#" class="btn btn-primary btn-lg">Alışverişi Tamamla <i
                                 class="fa fa-arrow-circle-right fa-fw"></i></a>
                     </div>
 
                 </div>
+                @endif
             </div>
         </section>
     </section>

@@ -30,15 +30,30 @@ Route::get('/retdata', function () {
     return view('Admin.retrewing');
 });
 
+
 Route::get('/cart', [HomeController::class, 'getCart'])->name("showCart");
+
 Route::get('/shop', [HomeController::class, 'getProduct'])->name("urungetir");
 Route::get('/product-detail', [HomeController::class, 'productDetail'])->name("urundetay");
-Route::middleware('auth')->get("/admin", [AdminController::class, 'index'])->name('admin');
-Route::middleware('auth')->get("/user-list", [AdminController::class, 'userList'])->name('userlist');
-Route::middleware('auth')->get("/urun-yönetim", [AdminController::class, 'urunYönetim'])->name('urunyönetim');
-Route::middleware('auth')->get("/urun-stok", [AdminController::class, 'urunStok'])->name('urunstok');
-Route::middleware('auth')->post("/freezeuser", [AdminController::class, 'freezeUser'])->name('freeze');
-Route::middleware('auth')->post("/freezebreakuser", [AdminController::class, 'freezeBreakUser'])->name('freezebreak');
-Route::middleware('auth')->post("/addproduct", [AdminController::class, 'addProduct'])->name('addproduct');
-Route::middleware('auth')->post("/addowner", [AdminController::class, 'addOwner'])->name('addowner');
-Route::middleware('auth')->post("/addcategory", [AdminController::class, 'addCategory'])->name('addcategory');
+Route::get("/freeze-user", [HomeController::class, 'freezeUsers'])->name('freezeUser');
+Route::middleware('auth.admin')->get("/admin", [AdminController::class, 'index'])->name('admin');
+Route::middleware('auth.admin')->get("/user-list", [AdminController::class, 'userList'])->name('userlist');
+Route::middleware('auth.admin')->get("/urun-yönetim", [AdminController::class, 'urunYönetim'])->name('urunyönetim');
+Route::middleware('auth.admin')->get('/comments', [AdminController::class, 'getComments'])->name("getComment");
+Route::middleware('auth.admin')->post('/update-product', [AdminController::class, 'updateProduct'])->name("updateProducts");
+Route::middleware('auth.admin')->get('/product-updates', [AdminController::class, 'productUpdate'])->name("productStok");
+Route::middleware('auth.admin')->get('/okComment', [AdminController::class, 'okComments'])->name("okComment");
+Route::middleware('auth.admin')->get('/deleteComment', [AdminController::class, 'deleteComment'])->name("deleteComment");
+Route::middleware('auth.admin')->get("/urun-stok", [AdminController::class, 'urunStok'])->name('urunstok');
+Route::middleware('auth.admin')->get("/satis-cek", [AdminController::class, 'satistanCek'])->name('satiscek');
+Route::middleware('auth.admin')->post("/freezeuser", [AdminController::class, 'freezeUser'])->name('freeze');
+Route::middleware('auth')->post("/post-content", [HomeController::class, 'setComment'])->name('setComment');
+Route::middleware('auth')->get("/profile", [HomeController::class, 'getUserAdress'])->name('useradress');
+Route::middleware('auth')->get("/profil-details", [HomeController::class, 'getUserProfile'])->name('profileDetails');
+Route::middleware('auth')->get("/hesap-ac", [HomeController::class, 'hesapAc'])->name('hesapac');
+Route::middleware('auth')->get("/track", [HomeController::class, 'getShopTrack'])->name('shopTrack');
+
+Route::middleware('auth.admin')->post("/freezebreakuser", [AdminController::class, 'freezeBreakUser'])->name('freezebreak');
+Route::middleware('auth.admin')->post("/addproduct", [AdminController::class, 'addProduct'])->name('addproduct');
+Route::middleware('auth.admin')->post("/addowner", [AdminController::class, 'addOwner'])->name('addowner');
+Route::middleware('auth.admin')->post("/addcategory", [AdminController::class, 'addCategory'])->name('addcategory');
