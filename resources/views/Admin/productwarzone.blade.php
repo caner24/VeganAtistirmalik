@@ -20,7 +20,7 @@
                                         <tr>
                                             <th>Resim</th>
                                             <th>Resim Adi</th>
-                                            <th>Sil</th>
+                                            <th>Güncelle</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -29,7 +29,6 @@
                                         <tr class="odd gradeX">
                                             <td><img style="width:10%" src="/images/{{ $value->Path }}"> </td>
                                             <td>{{ $value->Path }} </td>
-                                            <td> <button class="btn btn-danger " type="submit">Sil</button></td>
                                             <td> <a href="{{ route('productStok', ['datas' => $value->id]) }}" class="btn btn-info " type="submit">Güncelle
                                                 </a></td>
                                         </tr>

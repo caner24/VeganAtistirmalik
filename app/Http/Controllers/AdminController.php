@@ -8,27 +8,57 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-
+        $photos = array();
+        $usernamesFieche = array();
+        if ($request["userName"]) {
+            $userId = DB::table("users")->where("name", $request["userName"])->get();
+            $products = DB::table("fieche")->where("UserId", $userId[0]->id)->get();
+            foreach ($products as $key => $value) {
+                $productDetId = DB::table("productdetail")->where("Id", $value->ProductDetId)->get();
+                $productId = DB::table("products")->where("Id", $productDetId[0]->ProductId)->get();
+                $photosId = DB::table("productimages")->where("ProductId",  $productId[0]->id)->get();
+                $photos[$key] = DB::table("images")->where("Id",  $photosId[0]->PhotoId)->get("Path");
+                $usernamesFieche[$key] = DB::table("users")->where("Id", $value->UserId)->get("name");
+            }
+        } else {
+            if ($request["id"]) {
+                $products = DB::table("fieche")->skip($request["id"])->take(6)->get();
+                foreach ($products as $key => $value) {
+                    $productDetId = DB::table("productdetail")->where("Id", $value->ProductDetId)->get();
+                    $productId = DB::table("products")->where("Id", $productDetId[0]->ProductId)->get();
+                    $photosId = DB::table("productimages")->where("ProductId",  $productId[0]->id)->get();
+                    $photos[$key] = DB::table("images")->where("Id",  $photosId[0]->PhotoId)->get("Path");
+                    $usernamesFieche[$key] = DB::table("users")->where("Id", $value->UserId)->get("name");
+                }
+            } else {
+                $products = DB::table("fieche")->take(6)->get();
+                foreach ($products as $key => $value) {
+                    $productDetId = DB::table("productdetail")->where("Id", $value->ProductDetId)->get();
+                    $productId = DB::table("products")->where("Id", $productDetId[0]->ProductId)->get();
+                    $photosId = DB::table("productimages")->where("ProductId",  $productId[0]->id)->get();
+                    $photos[$key] = DB::table("images")->where("Id",  $photosId[0]->PhotoId)->get("Path");
+                    $usernamesFieche[$key] = DB::table("users")->where("Id", $value->UserId)->get("name");
+                }
+            }
+        }
+        $orderCount = DB::table("fieche")->where("isOk", 0)->get()->count();
+        $okOrderCount = DB::table("fieche")->where("isOk", 1)->get()->count();
         $productsCount = DB::table("products")->get()->count();
         $veriler =  DB::table("comments")->where('IsOk', 1)->take(5)->get();
-
         if ($veriler != null) {
             $userNames = array();
             $productNames = array();
             foreach ($veriler as $key => $value) {
                 $user = DB::table("users")->whereId($value->UserId)->get();
-
                 array_push($userNames, $user[0]->name);
-
                 $user = DB::table("products")->whereId($value->ProductId)->get();
-
                 array_push($productNames, $user[0]->ProductName);
             }
-            return view('Admin.index', ['productCount' => $productsCount, 'prodcutNames' => $productNames, 'usernames' => $userNames, 'comments' => $veriler]);
+            return view('Admin.index', ['photos' => $photos, 'usernamesFieche' => $usernamesFieche, 'orderCount' => $orderCount, 'okOrderCount' => $okOrderCount, 'productCount' => $productsCount, 'prodcutNames' => $productNames, 'usernames' => $userNames, 'comments' => $veriler, 'productListers' => $products]);
         }
-        return view('Admin.index', ['productCount' => $productsCount]);
+        return view('Admin.index', ['photos' => $photos, 'usernamesFieche' => $usernamesFieche, 'orderCount' => $orderCount, 'okOrderCount' => $okOrderCount, 'productCount' => $productsCount, 'productListers' => $products]);
     }
 
     public function userList()
@@ -36,6 +66,20 @@ class AdminController extends Controller
 
         $veriler =  DB::table("users")->get();
         return view("Admin.usermanagement", ['veriler' => $veriler]);
+    }
+    public function setFieche(Request $request)
+    {
+
+        if ($request["status"] == 1) {
+            DB::table("fieche")->where("id", $request["id"])->update(["isReady" => 1]);
+        }
+        if ($request["status"] == 2) {
+            DB::table("fieche")->where("id", $request["id"])->update(["isShipping" => 1]);
+        }
+        if ($request["status"] == 3) {
+            DB::table("fieche")->where("id", $request["id"])->update(["isOk" => 1]);
+        }
+        return redirect()->back();
     }
     public function satistanCek(Request $request)
     {
@@ -65,7 +109,7 @@ class AdminController extends Controller
 
     public function freezeBreakUser(Request $request)
     {
-        DB::table("users")->where("id", $request["userId"])->update(["isdisable" => 0]);
+        DB::table("users")->where("id", $request["userId"])->update(["isdisable" => 0, "isrequest" => 0]);
         return redirect()->route('userlist');
     }
 

@@ -29,7 +29,7 @@
                         <i class="fa fa-truck"></i>
                     </span>
                     <div class="text-box">
-                        <p class="main-text">3 SİPARİŞ</p>
+                        <p class="main-text">{{$orderCount}} SİPARİŞ</p>
                         <p class="text-muted">HENÜZ TESLİM EDİLMEMİŞ SİPARİŞ SAYİSİ</p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                         <i class="fa fa-check"></i>
                     </span>
                     <div class="text-box">
-                        <p class="main-text">3 SİPARİŞ TAMAMLANDI</p>
+                        <p class="main-text">{{$okOrderCount}} SİPARİŞ TAMAMLANDI</p>
                         <p class="text-muted">TAMAMLANAN SİPARİŞ SAYISI</p>
                     </div>
                 </div>
@@ -55,66 +55,98 @@
 
         </div>
         <!-- /. ROW  -->
-        <div class="row">
 
-
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Bar Chart Example
-                    </div>
-                    <div class="panel-body">
-                        <div id="morris-bar-chart"></div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
         <!-- /. ROW  -->
         <div class="row">
 
             <div class="col-md-12 col-sm-12 col-xs-12">
 
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        SİPARİŞ YÖNETİMİ
+                    <div class="panel-heading" style="display: flex;width:100%">
+                        <h2>SİPARİŞ YÖNETİMİ</h2>
+                        <div style="justify-self:end;align-self: center;margin-left:auto">
+                            <form method="get" action="{{route('admin')}}">
+                                <input name="userName" type="text" />
+                                <input type="submit" class="btn btn-success" value="ARA" />
+                            </form>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Username</th>
-                                        <th>User No.</th>
+                                        <th>Ürün Fotoğraf</th>
+                                        <th>Kullanici Adi</th>
+                                        <th>Toplam Tutar</th>
+                                        <th>ADET</th>
                                         <th>HAZIRLANDI</th>
                                         <th>KARGODA</th>
                                         <th>TESLİM ALINDI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                                    @foreach($productListers as $key=>$value)
                                     <tr>
-                                        <td>1</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>100090</td>
+                                        <td><img style="width:10%" src="/images/{{$photos[$key][0]->Path}}"> </td>
+                                        <td>{{$usernamesFieche[$key][0]->name}}</td>
+
+                                        <td>{{$value->LineTotal}}</td>
+                                        <td>{{$value->counts}}</td>
+
+                                        @if($value->isReady)
                                         <td>
-                                            <button class="btn btn-info " type="submit">EVET</button>
+                                            <a class=" btn btn-info disabled " href="{{ route('setFieches', ['id' => $value->id,'status'=>1]) }}">EVET</a>
+                                        </td>
+                                        @if($value->isShipping)
+                                        <td>
+                                            <a class="btn btn-warning disabled" href="{{ route('setFieches', ['id' => $value->id,'status'=>2]) }}">EVET</a>
+                                        </td>
+                                        @if($value->isOk)
+                                        <td>
+                                            <a class="btn btn-success disabled " href="{{ route('setFieches', ['id' => $value->id,'status'=>3]) }}">EVET</a>
+                                        </td>
+                                        @else
+                                        <td>
+                                            <a class="btn btn-success " href="{{ route('setFieches', ['id' => $value->id,'status'=>3]) }}">EVET</a>
+                                        </td>
+                                        @endif
+                                        @else
+                                        <td>
+                                            <a class="btn btn-warning " href="{{ route('setFieches', ['id' => $value->id,'status'=>2]) }}">EVET</a>
                                         </td>
                                         <td>
-                                            <button class="btn btn-info disabled" type="submit">EVET</button>
+                                            <a class="btn btn-success disabled" href="{{ route('setFieches', ['id' => $value->id,'status'=>3]) }}">EVET</a>
+                                        </td>
+                                        @endif
+                                        @else
+                                        <td>
+                                            <a class=" btn btn-info " href="{{ route('setFieches', ['id' => $value->id,'status'=>1]) }}">EVET</a>
                                         </td>
                                         <td>
-                                            <button class="btn btn-info disabled" type="submit">EVET</button>
+                                            <a class="btn btn-warning disabled" href="{{ route('setFieches', ['id' => $value->id,'status'=>2]) }}">EVET</a>
                                         </td>
+                                        <td>
+                                            <a class="btn btn-success disabled" href="{{ route('setFieches', ['id' => $value->id,'status'=>3]) }}">EVET</a>
+                                        </td>
+                                        @endif
+
                                     </tr>
+                                    @endforeach
                                 </tbody>
+
+
+
                             </table>
+
                         </div>
+
+                    </div>
+                    <div style="position:relative">
+                        @for($i=1;$i<$productCount;$i++) @if($i%6==0) <a class="btn btn-primary">{{$i/6}}</a>
+                            @endif
+                            @endfor
                     </div>
                 </div>
 
@@ -122,7 +154,7 @@
         </div>
         <!-- /. ROW  -->
         <div class="row">
-            <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
 
                 <div class="chat-panel panel panel-default chat-boder chat-panel-head">
                     <div class="panel-heading">
@@ -173,18 +205,7 @@
 
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 col-xs-12">
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Donut Chart Example
-                    </div>
-                    <div class="panel-body">
-                        <div id="morris-donut-chart"></div>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
 </div>

@@ -47,12 +47,18 @@ Route::middleware('auth.admin')->get('/deleteComment', [AdminController::class, 
 Route::middleware('auth.admin')->get("/urun-stok", [AdminController::class, 'urunStok'])->name('urunstok');
 Route::middleware('auth.admin')->get("/satis-cek", [AdminController::class, 'satistanCek'])->name('satiscek');
 Route::middleware('auth.admin')->post("/freezeuser", [AdminController::class, 'freezeUser'])->name('freeze');
+Route::middleware('auth.admin')->get("/setFieche", [AdminController::class, 'setFieche'])->name('setFieches');
 Route::middleware('auth')->post("/post-content", [HomeController::class, 'setComment'])->name('setComment');
+Route::middleware('auth')->post("/freeze-users", [HomeController::class, 'freezeUser'])->name('freezeUser');
+Route::middleware('auth')->post("/add-adress", [HomeController::class, 'addAdress'])->name('addAdress');
+Route::middleware('auth')->get("/current-adress", [HomeController::class, 'setCurrentAdress'])->name('currentAdress');
+Route::middleware('auth')->get("/set-adress", [HomeController::class, 'setAdress'])->name('setAdress');
+Route::middleware('auth')->get("/payments", [HomeController::class, 'setFieche'])->name('setFieche');
 Route::middleware('auth')->get("/profile", [HomeController::class, 'getUserAdress'])->name('useradress');
 Route::middleware('auth')->get("/profil-details", [HomeController::class, 'getUserProfile'])->name('profileDetails');
 Route::middleware('auth')->get("/hesap-ac", [HomeController::class, 'hesapAc'])->name('hesapac');
 Route::middleware('auth')->get("/track", [HomeController::class, 'getShopTrack'])->name('shopTrack');
-
+Route::middleware('auth')->get("/create-payments", [HomeController::class, 'createPayment'])->name('createShop');
 Route::middleware('auth.admin')->post("/freezebreakuser", [AdminController::class, 'freezeBreakUser'])->name('freezebreak');
 Route::middleware('auth.admin')->post("/addproduct", [AdminController::class, 'addProduct'])->name('addproduct');
 Route::middleware('auth.admin')->post("/addowner", [AdminController::class, 'addOwner'])->name('addowner');

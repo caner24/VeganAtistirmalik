@@ -27,7 +27,53 @@ class HomeController extends Controller
         $userAdress = DB::table("useradress")->where("User_id", auth()->user()->id)->get();
         return view("Home.useradress", ['userAdress' => $userAdress, 'cartCount' => $count]);
     }
-    public function getUserProfile(Request $request){
+    public function createPayment(Request $request)
+    {
+        $totalPrice = 0;
+        $durum = false;
+        $productTotal = 0;
+        if ($request->session()->get('Count')) {
+            $durum = true;
+            $count = $request->session()->get('Count');
+            $productCount = $request->session()->get('productCount');
+            $productArr = array();
+            $total = 0;
+            $productDetArr = array();
+            $imageArr = array();
+            $imagePathArr = array();
+            $PathArr = array();
+            $detArr = array();
+            foreach ($request->session()->get('ProductId') as $key => $value) {
+                $products = DB::table("products")->whereId($value)->get();
+                $productdet =  DB::table("productdetail")->where("ProductId", $value)->get();
+                $image =  DB::table("productimages")->where("ProductId", $value)->get();
+                array_push($productArr, $products);
+                array_push($productDetArr, $productdet);
+                array_push($imageArr, $image);
+            }
+            foreach ($imageArr as $key => $value) {
+                $imagePath =  DB::table("images")->where("id", $value[0]->PhotoId)->get();
+                array_push($imagePathArr, $imagePath);
+            }
+            foreach ($imagePathArr as $key => $value) {
+                array_push($PathArr, $value[0]->Path);
+            }
+            foreach ($productDetArr as $key => $value) {
+                $total +=  $productCount[$key] * $value[0]->UnitPrice;
+                array_push($detArr, $value[0]->UnitPrice);
+            }
+            $userAdress = DB::table("useradress")->where("User_id", auth()->user()->id)->get("id")->count() >= 2 ? DB::table("useradress")->where("User_id", auth()->user()->id)->where("isDefault", 1)->get() : DB::table("useradress")->where("User_id", auth()->user()->id)->get();
+            return view("Home.createPayments", ['userAdress' => $userAdress, 'total' => $total, '$productTotal' => $productTotal, 'productCount' => $productCount, 'totalPrice' => $totalPrice, 'cartCount' => $count, 'durumBilgisi' => $durum, 'productList' => $productArr, 'productDetList' => $detArr, 'photoPathList' => $PathArr]);
+        } else {
+            $count = 0;
+            $userAdress = DB::table("useradress")->where("User_id", auth()->user()->id)->get();
+            $productCount = $request->session()->get('productCount');
+            return view("Home.createPayments", ['userAdress' => $userAdress, '$productTotal' => $productTotal, 'productCount' => $productCount, 'totalPrice' => $totalPrice, 'cartCount' => $count, 'durumBilgisi' => $durum]);
+        }
+    }
+    public function getUserProfile(Request $request)
+    {
+
 
         return view("Home.profile");
     }
@@ -38,7 +84,16 @@ class HomeController extends Controller
         } else {
             $count = 0;
         }
-        return view("Home.userorders", ['cartCount' => $count]);
+        $products = array();
+        $images = array();
+        $fieches = DB::table("fieche")->where("UserId", auth()->user()->id)->get();
+        foreach ($fieches as $key => $value) {
+            $productId = DB::table("productdetail")->where("id", $value->ProductDetId)->get();
+            $photoId = DB::table("productimages")->where("ProductId", $productId[0]->ProductId)->get();
+            $products[$key] = DB::table("products")->where("id", $productId[0]->ProductId)->get();
+            $images[$key] = DB::table("images")->where("id", $photoId[0]->PhotoId)->get();
+        }
+        return view("Home.userorders", ['cartCount' => $count, 'fieches' => $fieches, 'images' => $images, 'products' => $products]);
     }
     public function freezeUser(Request $request)
     {
@@ -77,6 +132,8 @@ class HomeController extends Controller
             $imagePathArr = array();
             $PathArr = array();
             $detArr = array();
+            $productDetIdArr = array();
+            $productPrices = array();
             foreach ($request->session()->get('ProductId') as $key => $value) {
                 $products = DB::table("products")->whereId($value)->get();
                 $productdet =  DB::table("productdetail")->where("ProductId", $value)->get();
@@ -85,6 +142,7 @@ class HomeController extends Controller
                 array_push($productDetArr, $productdet);
                 array_push($imageArr, $image);
             }
+
             foreach ($imageArr as $key => $value) {
                 $imagePath =  DB::table("images")->where("id", $value[0]->PhotoId)->get();
                 array_push($imagePathArr, $imagePath);
@@ -94,16 +152,42 @@ class HomeController extends Controller
             }
             foreach ($productDetArr as $key => $value) {
                 $total +=  $productCount[$key] * $value[0]->UnitPrice;
+                array_push($productPrices, $productCount[$key] * $value[0]->UnitPrice);
                 array_push($detArr, $value[0]->UnitPrice);
+                array_push($productDetIdArr, $value[0]->id);
             }
-            return view("Home.cart", ['total' => $total, '$productTotal' => $productTotal, 'productCount' => $productCount, 'totalPrice' => $totalPrice, 'cartCount' => $count, 'durumBilgisi' => $durum, 'productList' => $productArr, 'productDetList' => $detArr, 'photoPathList' => $PathArr]);
+            $request->session()->put('productDetail', $productDetIdArr);
+            $request->session()->put('productPrices', $productPrices);
+            return view("Home.cart", ['detArr' => $detArr, 'productDetId' => $productDetIdArr, 'total' => $total, '$productTotal' => $productTotal, 'productCount' => $productCount, 'totalPrice' => $totalPrice, 'cartCount' => $count, 'durumBilgisi' => $durum, 'productList' => $productArr, 'productDetList' => $detArr, 'photoPathList' => $PathArr]);
         } else {
             $count = 0;
             $productCount = $request->session()->get('productCount');
             return view("Home.cart", ['$productTotal' => $productTotal, 'productCount' => $productCount, 'totalPrice' => $totalPrice, 'cartCount' => $count, 'durumBilgisi' => $durum]);
         }
     }
-
+    public function setFieche(Request $request)
+    {
+        $myItems = $request->session()->get('productDetail');
+        $productCount = $request->session()->get('productCount');
+        $productPrices = $request->session()->get('productPrices');
+        $errorMessage = "";
+        foreach ($myItems as $key => $value) {
+            $userAdress = DB::table("useradress")->where("User_id", auth()->user()->id)->get("id")->count() >= 2 ? DB::table("useradress")->where("User_id", auth()->user()->id)->where("isDefault", 1)->get() : DB::table("useradress")->where("User_id", auth()->user()->id)->get();
+            $number =  DB::table("productdetail")->where("id", $myItems[$key])->get("Count");
+            if ($number < $productCount[$key]) {
+                $errorMessage = "Stokta daha az ürün vardır.Stok Sayisi :  | " . $number . " | ";
+                return view("Home.stokyetersiz");
+            } else {
+                DB::table("fieche")->insert(["ProductDetId" => $myItems[$key], "UserId" => auth()->user()->id, "AdressId" => $userAdress[0]->id, "LineTotal" => $productPrices[$key], "counts" => $productCount[$key]]);
+            }
+        }
+        $request->session()->remove('Count');
+        $request->session()->remove('ProductId');
+        $request->session()->remove('productCount');
+        $request->session()->remove('productDetail');
+        $request->session()->remove('productPrices');
+        return redirect()->route('shopTrack');
+    }
     public function about(Request $request)
     {
         if ($request->session()->get('Count')) {
@@ -111,8 +195,8 @@ class HomeController extends Controller
         } else {
             $count = 0;
         }
-
-        return view("Home.about", ['cartCount' => $count]);
+        $fiecheCount =  DB::table("fieche")->get()->count();
+        return view("Home.about", ['cartCount' => $count, 'fiecheCount' => $fiecheCount]);
     }
 
     public function getProfile(Request $request)
@@ -147,6 +231,7 @@ class HomeController extends Controller
             } else {
                 $products =  DB::table("products")->skip((int)$request["id"])->take(6)->get();
                 $productdet =  DB::table("productdetail")->skip((int)$request["id"])->take(6)->get();
+
                 $imagess =  DB::table("images")->skip((int)$request["id"])->take(6)->get();
             }
         } else {
@@ -173,6 +258,7 @@ class HomeController extends Controller
                 $imagess = array();
                 $productdet =  DB::table("productdetail")->where("CategoryId", $request["category"])->skip((int)$request["id"])->take(6)->get();
                 foreach ($productdet as $key => $value) {
+
                     $productsItem =  DB::table("products")->whereId($value->ProductId)->get();
                     $tempImage =  DB::table("productimages")->where('ProductId', $value->ProductId)->get();
                     array_push($ImageArr,  $tempImage);
@@ -217,13 +303,58 @@ class HomeController extends Controller
         $releatedProduct = DB::table("products")->orderByDesc("id")->take(6)->get();
         $releatedProductdet =  DB::table("productdetail")->orderByDesc("id")->take(6)->get();
         $releatedImage =  DB::table("images")->orderByDesc("id")->take(6)->get();
-        return view('Home.productDetail', ['userList' => $userList, 'reviews' => $reviews, 'productId' => $prodId, 'productCategory' => $productCategory, 'releatedProduct' => $releatedProduct, 'releatedProductdet' => $releatedProductdet, 'releatedImage' => $releatedImage, 'products' => $products, 'productdet' => $productdet, 'imagess' => $imagess, 'cartCount' => $count]);
+        if (auth()->user()) {
+            $yetkiKontrol = DB::table("fieche")->where("UserId", auth()->user()->id)->where("ProductDetId", $productdet[0]->id)->get();
+            foreach ($yetkiKontrol as $key => $value) {
+                $yetkiKontrol = true;
+                return view('Home.productDetail', ['yetkiKontrol' => $yetkiKontrol, 'userList' => $userList, 'reviews' => $reviews, 'productId' => $prodId, 'productCategory' => $productCategory, 'releatedProduct' => $releatedProduct, 'releatedProductdet' => $releatedProductdet, 'releatedImage' => $releatedImage, 'products' => $products, 'productdet' => $productdet, 'imagess' => $imagess, 'cartCount' => $count]);
+            }
+        }
+        $yetkiKontrol = false;
+        return view('Home.productDetail', ['yetkiKontrol' => $yetkiKontrol, 'userList' => $userList, 'reviews' => $reviews, 'productId' => $prodId, 'productCategory' => $productCategory, 'releatedProduct' => $releatedProduct, 'releatedProductdet' => $releatedProductdet, 'releatedImage' => $releatedImage, 'products' => $products, 'productdet' => $productdet, 'imagess' => $imagess, 'cartCount' => $count]);
     }
     public function setComment(Request $request)
     {
-
+        $request->validate([
+            "commentText" => "required",
+        ]);
         DB::table("comments")->insert(["ProductId" => $request["productId"], "UserId" => $request["userId"], "CommentText" => $request["commentText"]]);
         return redirect()->back();
+    }
+
+    public function setCurrentAdress(Request $request)
+    {
+        DB::table("useradress")->where("User_id", auth()->user()->id)->update(["isDefault" => 0]);
+        DB::table("useradress")->where("Id", $request["id"])->update(["isDefault" => 1]);
+        return redirect()->back();
+    }
+    public function buyOrders(Request $request)
+    {
+        foreach ($request->session()->get('productCount') as $key => $value) {
+            DB::table("fieche")->insert(["ProductDetId" => 1, "UserId" => 1, "AdressId" => 1, "LineTotal" => 1, "counts" => 1]);
+        }
+
+
+        return redirect()->back();
+    }
+    public function addAdress(Request $request)
+    {
+        $request->validate([
+            "ulke" => "required",
+            "il" => "required",
+            "ilce" => "required",
+            "adress" => "required",
+            "zipKodu" => "required",
+        ]);
+        DB::table("useradress")->insert(["User_Id" => auth()->user()->id, "Region" => $request["ulke"], "AdressText" => $request["adress"], "Province" => $request["il"], "District" => $request["ilce"], "ZipCode" => $request["zipKodu"]]);
+        return redirect()->route('useradress');
+    }
+
+
+    public function setAdress(Request $request)
+    {
+
+        return view("Home.addAdress");
     }
 
     public function setCart(Request $request)
@@ -264,9 +395,19 @@ class HomeController extends Controller
     {
         $newArr = array();
         $newArr2 = array();
+        $newArr3 = array();
+        $newArr4 = array();
+        $productDetArr = $request->session()->get('productDetail');
+        $productPricesArr = $request->session()->get('productPrices');
         foreach ($request->session()->get('ProductId') as $key => $value) {
-            if ($value != $request["prodId"]) {
+            if ($value != $request["prodId"] &&  $productDetArr[$key] != $request["productDetailId"]) {
                 array_push($newArr, $value);
+                array_push($newArr3,  $productDetArr[$key]);
+            }
+        }
+        foreach ($request->session()->get('ProductId') as $key => $value) {
+            if ($value != $request["prodId"] &&  $productPricesArr[$key] != $request["productPrice"]) {
+                array_push($newArr4,  $productPricesArr[$key]);
             }
         }
         $sayi =   count($request->session()->get('productCount'));
@@ -284,6 +425,8 @@ class HomeController extends Controller
         $request->session()->put('Count', $count);
         $request->session()->put('ProductId', $newArr);
         $request->session()->put('productCount', $newArr2);
+        $request->session()->put('productDetail', $newArr3);
+        $request->session()->put('productPrices', $newArr4);
         return redirect()->route('showCart');
     }
 }

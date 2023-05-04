@@ -8,7 +8,7 @@
             </div>
             <div class="col-xs-6 text-right breadcrumbs">
                 <ul class="list-inline list-unstyled">
-                    <li><a href="index-2.html">Home</a></li>
+                    <li><a href="{{route('index')}}">Home</a></li>
                     <li>/</li>
                     <li>Shop</li>
                 </ul>
@@ -30,20 +30,12 @@
             <div id="sidebar" class="col-md-3">
 
                 <div class="widget">
-                    <form class="form-inline">
-                        <div class="input-group">
-                            <input type="text" class="form-control input-lg" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-lg" type="submit"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-
-                    </form>
+                  
                 </div>
 
 
                 <div class="widget">
-                    <h4>CATEGORIES</h4>
+                    <h4>KATEGORİLER</h4>
                     <ul class="list-unstyled link-list">
                         @foreach ($categories as $key => $value)
                         <li><i class="fa fa-angle-right fa-fw" aria-hidden="true"></i> <a href="{{ route('urungetir', ['category' => $categories[$key]->id]) }}">{{ $categories[$key]->Name }}
@@ -65,22 +57,11 @@
                     <div class="col-md-12 wow fadeIn">
                         <div class="row product-results">
                             <div class="product-results">
-                                <div class="col-xs-8">
-                                    <p class="woocommerce-result-count">Showing 1–12 of 25 results</p>
-                                </div>
+                    
+                         
 
                                 <div class="col-xs-4 text-right">
-                                    <form method="get" class="woocommerce-ordering">
-                                        <select class="form-control" name="orderby">
-                                            <option selected="selected" value="menu_order">Default sorting
-                                            </option>
-                                            <option value="popularity">Sort by popularity</option>
-                                            <option value="rating">Sort by rating</option>
-                                            <option value="date">Newest on top</option>
-                                            <option value="price">Price: low to high</option>
-                                            <option value="price-desc">Price: high to low</option>
-                                        </select>
-                                    </form>
+                                 
                                 </div>
                             </div>
                         </div>
@@ -126,6 +107,7 @@
                                     <li>
                                         <form method="POST" action="{{ route('addcart') }}">
                                             @csrf <input type="text" name="prodId" id="prodId" hidden value="{{ $value->id }}">
+                                            <input type="text" name="prodDetId" id="prodDetId" hidden value="{{ $productdet[$key]->id }}">
                                             <input name="count" type="number" size="4" value="1" min="1" step="1" hidden>
                                             <button type="submit"><i class="fa fa-cart-plus fa-fw"></i></button>
                                         </form>
@@ -156,8 +138,13 @@
                                     @if ($key % 6 == 0)
                                     {{ $sayac++ }}
                                     @if ($sayac > 2)
+                                    @if($sayac==2)
+                                    <li><a href="{{ route('urungetir', ['id' => 6 ]) }}">{{ $sayac }}</a>
+                                    </li>
+                                    @else
                                     <li><a href="{{ route('urungetir', ['id' => 6 * $sayac]) }}">{{ $sayac }}</a>
                                     </li>
+                                    @endif
                                     @else
                                     <li><a href="{{ route('urungetir', ['id' => 6]) }}">{{ $sayac }}</a>
                                     </li>

@@ -12,10 +12,16 @@
     <title>User-Profile</title>
 </head>
 
-<body>
+<body style="background-color:#4CAF50">
+
+   
     <section style="margin-top: 8%;" class="container">
 
-        <div class="row">
+    <div style="width: 100%;" class="d-flex ">
+<img src="https://blog.rootsofcompassion.org/wp-content/uploads/vegan_banner.jpg" style="width: 100%; height:150px; object-fit: fill;" class="rounded-lg mb-2">
+</div>
+
+        <div class="row h-50">
             <div class="col-md-4 ">
                 <div class="card ">
                     <div class="text-center card-header">
@@ -26,12 +32,13 @@
                             <li class="w-50"><a class="btn btn-primary mt-3 w-100 " href="{{route('useradress')}}">Adreslerim</a> </li>
                             <li class="w-50"><a class="btn btn-primary mt-3 w-100" href="{{route('shopTrack')}}">Siparişlerim</a> </li>
                             <li class="w-50"><a class="btn btn-primary mt-3 w-100" href="{{route('profileDetails')}}">Hesap Yönetimi</a> </li>
+                            <li class="w-50"><a class="btn btn-primary mt-3 w-100" href="{{route('index')}}">Mağaza</a> </li>
                         </ul>
                     </div>
 
                 </div>
             </div>
-            <div class="col-md-8 ">
+            <div class="col-md-8 p-3 ">
                 <div class="card ">
                     @yield('menubar')
                 </div>

@@ -6,8 +6,13 @@
     <h1>ADRESS</h1>
 </div>
 <div class="card-body ">
-<span class="badge badge-success">Varsayilan Adres</span>
-    <span class="badge badge-warning">Varsayilan Değil</span>
+
+
+
+
+    <span class="badge badge-success">Varsayilan Adres</span>
+    <span class="ms-auto badge badge-warning">Varsayilan Değil</span>
+    <span class="ms-auto badge badge-success"><a href="{{route('setAdress')}}">ADRES EKLE</a></span>
     <table class="table table-stripped table-bordered  ">
         <thead class="d-flex w-100 ">
             <tr class="d-flex w-100">
@@ -26,14 +31,15 @@
                 <td class="w-25">{{$value->Province}}</td>
                 <td class="w-25">{{$value->AdressText}}</td>
                 @if($value->isDefault)
-                <td class="w-25 d-flex"><a class="btn btn-success  w-100  "></a></td>
+                <td class="w-25 d-flex"><a href="{{route('currentAdress',['id'=>$value->id])}}" class="btn btn-success  w-100  "></a></td>
                 @else
-                <td class="w-25 d-flex"><a class="btn btn-warning  w-100  "></a></td>
+                <td class="w-25 d-flex"><a href="{{route('currentAdress',['id'=>$value->id])}}" class="btn btn-warning  w-100  "></a></td>
                 @endif
             </tr>
             @endforeach
         </tbody>
     </table>
+
 </div>
 </div>
 

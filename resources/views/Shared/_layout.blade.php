@@ -11,6 +11,44 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <style>
+        .cookie {
+            z-index: 1;
+            width: 420px;
+            height: 150px;
+            background-color: #fff;
+            position: fixed;
+            bottom: 88px;
+            border-radius: 10px;
+            left: 5%;
+            padding: 10px 20px;
+        }
+
+        .cookie .txt {
+            float: left;
+            width: 65%;
+        }
+
+        .txt p {
+            color: #1D2D35;
+        }
+
+        .cookie .accept {
+            background-color: #40CC79;
+            color: #fff !important;
+            border-radius: 32px;
+            padding: 3px 23px;
+            /* align-self: center; */
+            font-size: 19px;
+            margin-top: 2.5%;
+            margin-left: 3%;
+
+        }
+
+        .cookie .accept:hover {
+            background-color: #30b867;
+        }
+    </style>
     <!-- TITLE -->
     <title>VeganAtistirmalik</title>
 
@@ -28,7 +66,7 @@
 
     <!-- LOAD DEMO CSS -->
     <link href="/demo/demo.css" rel="stylesheet" type="text/css">
-    
+
 
 </head>
 
@@ -106,25 +144,30 @@
 
 
         @yield('menubar');
+        <div class="d-flex justify-content-center container mt-5">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="d-flex flex-row justify-content-between align-items-center card cookie p-3">
+                        <div class="d-flex flex-row align-items-center"><img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" width="40">
+                            <div class="ml-2 mr-2"><span>Siteyi daha etkin kullanabilmeniz için çerezleri kullanıyoruz , &nbsp;siteye giriş yaparak bunu kabul etmiş oluyorsunuz<br></span></div>
+                        </div>
+                        <div><button name="okCokkies" id="okCookies" class="btn btn-dark" type="button">Okay</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <section id="footer">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
                         <img src="images/edura-logo.png" alt="Edura - Multipurpose Website Template">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
-                            Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis
-                            sagittis ipsum. Praesent mauris. <b>Lorem ipsum dolor sit amet, consectetur adipiscing</b>.
+                        <p>Kaliteli ürünlerinden oluşan alternatiflerimizle, Vegan Dünyası olarak, vegan hayat tarzını benimseyen tüm hayvan severlere hizmet etmenin mutluluğunu yaşıyoruz.
+
+                            </b>.
                         </p>
                         <br>
-                        <ul class="list-unstyled list-inline social-icons">
-                            <li><a href="#" class="facebook"><i class="fa fa-facebook facebook"></i></a></li>
-                            <li><a href="#" class="twitter"><i class="fa fa-twitter twitter"></i></a></li>
-                            <li><a href="#" class="googleplus"><i class="fa fa-google-plus googleplus"></i></a>
-                            </li>
-                            <li><a href="#" class="youtube"><i class="fa fa-youtube youtube"></i></a></li>
-                            <li><a href="#" class="linkedin"><i class="fa fa-linkedin linkedin"></i></a></li>
-                        </ul>
+                      
                     </div>
                     <div class="col-md-4">
                         <h4>PAGES</h4>
@@ -141,10 +184,10 @@
 
                     <div class="col-md-4">
                         <h4>CONTACT US</h4>
-                        <p><i class="fa fa-map-pin fa-fw"></i> 379 5th Ave, New York, 10001, USA</p>
+                        <p><i class="fa fa-map-pin fa-fw"></i> 379 5th Ave, Türkiye</p>
                         <p><i class="fa fa-phone fa-fw"></i> +(112) 345 6879</p>
                         <p><i class="fa fa-phone fa-fw"></i> +(112) 345 6879</p>
-                        <p><i class="fa fa-envelope fa-fw"></i> hello@example.com</p>
+                        <p><i class="fa fa-envelope fa-fw"></i> hello@veganatistirmalik.com</p>
                     </div>
 
 
@@ -162,8 +205,16 @@
     <!-- back to top button -->
     <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
 
-
-
+    <script>
+        if (sessionStorage.getItem("okCookies")) {
+            document.querySelector(".cookie").classList.add("hidden");
+        } else {
+            document.getElementById("okCookies").addEventListener('click', function() {
+                document.querySelector(".cookie").classList.add("hidden");
+                sessionStorage.setItem("okCookies", 1);
+            });
+        }
+    </script>
     <!-- MAIN JS FILES REQUIRED ON ALL PAGES -->
     <script src="/vendor/jquery/jquery.min.js"></script>
 
