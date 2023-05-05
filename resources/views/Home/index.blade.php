@@ -9,13 +9,13 @@
         <li class="selected" style="background-image:url('/images/{{$value->path}}');">
             @else
         <li style="background-image:url('/images/{{$value->path}}');">
-     
+
             @endif
-        
+
             <div class="container">
 
                 <h2>{{$value->name}}</h2>
-                <a href="#" class="btn btn-primary btn-lg text-uppercase">HEMEN AL</a>
+                <a href="{{route('urungetir')}}" class="btn btn-primary btn-lg text-uppercase">HEMEN AL</a>
             </div>
         </li>
         @endforeach
