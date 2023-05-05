@@ -204,7 +204,7 @@
                                         </ul>
                                     </div>
                                     <div class="product-item-inner">
-                                        <h3 class="product-title"><a href="#">{{ $value->ProductName }}</a>
+                                        <h3 class="product-title"><a href="{{ route('urundetay', ['id' => $value->id]) }}">{{ $value->ProductName }}</a>
                                         </h3>
                                         <p class="product-price">{{ $releatedProductdet[$key]->UnitPrice }}₺</p>
                                     </div>

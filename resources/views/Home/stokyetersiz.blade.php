@@ -8,8 +8,8 @@
     <title>Document</title>
 </head>
 
-<body>
-    <h2>STOK YETERSİZDİR</h2>
+<body style="background-color: #4CAF50;">
+    <h2>{{$errorMessage}}</h2>
 </body>
 
 </html>

@@ -30,7 +30,7 @@
             <div id="sidebar" class="col-md-3">
 
                 <div class="widget">
-                  
+
                 </div>
 
 
@@ -57,11 +57,11 @@
                     <div class="col-md-12 wow fadeIn">
                         <div class="row product-results">
                             <div class="product-results">
-                    
-                         
+
+
 
                                 <div class="col-xs-4 text-right">
-                                 
+
                                 </div>
                             </div>
                         </div>
@@ -77,6 +77,12 @@
                                 <div class="mask"></div>
                                 <ul class="list-unstyled list-inline">
 
+                                    @if($products[$key][0]->isStock==1)
+                                    <li>
+                                        <h2 style="color:white">ÜRÜN GEÇİÇİ OLARAK STOKTAN ÇEKİLMİŞTİR </h2>
+                                    </li>
+
+                                    @else
                                     <li><a href="{{ route('urundetay', ['id' => $products[$key][0]->id]) }}"><i class="fa fa-link fa-fw"></i></a></li>
                                     <li>
                                         <form method="POST" action="{{ route('addcart') }}">
@@ -85,11 +91,16 @@
                                             <button type="submit"><i class="fa fa-cart-plus fa-fw"></i></button>
                                         </form>
                                     </li>
+                                    @endif
 
                                 </ul>
                             </div>
                             <div class="product-item-inner">
-                                <h3 class="product-title"><a href="#">{{ $products[$key][0]->ProductName }}</a></h3>
+                                @if($products[$key][0]->isStock!=1)
+                                <h3 class="product-title"><a href="{{ route('urundetay', ['id' => $products[$key][0]->id]) }}">{{ $products[$key][0]->ProductName }}</a></h3>
+                                @else
+                                <h3 class="product-title"><a>{{ $products[$key][0]->ProductName }}</a></h3>
+                                @endif
                                 <p class="product-price">{{ $productdet[$key]->UnitPrice }} ₺</p>
                             </div>
                         </div>
@@ -103,6 +114,12 @@
                                 <img alt="" class="img-responsive" src="/images/{{ $imagess[$key]->Path }}">
                                 <div class="mask"></div>
                                 <ul class="list-unstyled list-inline">
+                                    @if($value->isStock==1)
+                                    <li>
+                                        <h2 style="color:white">ÜRÜN GEÇİÇİ OLARAK STOKTAN ÇEKİLMİŞTİR </h2>
+                                    </li>
+
+                                    @else
                                     <li><a href="{{ route('urundetay', ['id' => $value->id]) }}"><i class="fa fa-link fa-fw"></i></a></li>
                                     <li>
                                         <form method="POST" action="{{ route('addcart') }}">
@@ -112,11 +129,17 @@
                                             <button type="submit"><i class="fa fa-cart-plus fa-fw"></i></button>
                                         </form>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                             <div class="product-item-inner">
-                                <h3 class="product-title"><a href="#">{{ $value->ProductName }}</a>
+                                @if($value->isStock!=1)
+                                <h3 class="product-title"><a href="{{ route('urundetay', ['id' => $value->id]) }}">{{ $value->ProductName }}</a>
                                 </h3>
+                                @else
+                                <h3 class="product-title"><a>{{ $value->ProductName }}</a>
+                                </h3>
+                                @endif
                                 <p class="product-price">{{ $productdet[$key]->UnitPrice }} ₺</p>
                             </div>
                         </div>

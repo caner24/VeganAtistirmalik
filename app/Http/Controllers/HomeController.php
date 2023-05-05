@@ -15,7 +15,8 @@ class HomeController extends Controller
         } else {
             $count = 0;
         }
-        return view("Home.index", ['cartCount' => $count]);
+        $items = DB::table("bannerlogo")->get();
+        return view("Home.index", ['cartCount' => $count, 'items' => $items]);
     }
     public function getUserAdress(Request $request)
     {
@@ -142,7 +143,6 @@ class HomeController extends Controller
                 array_push($productDetArr, $productdet);
                 array_push($imageArr, $image);
             }
-
             foreach ($imageArr as $key => $value) {
                 $imagePath =  DB::table("images")->where("id", $value[0]->PhotoId)->get();
                 array_push($imagePathArr, $imagePath);
@@ -174,9 +174,9 @@ class HomeController extends Controller
         foreach ($myItems as $key => $value) {
             $userAdress = DB::table("useradress")->where("User_id", auth()->user()->id)->get("id")->count() >= 2 ? DB::table("useradress")->where("User_id", auth()->user()->id)->where("isDefault", 1)->get() : DB::table("useradress")->where("User_id", auth()->user()->id)->get();
             $number =  DB::table("productdetail")->where("id", $myItems[$key])->get("Count");
-            if ($number < $productCount[$key]) {
-                $errorMessage = "Stokta daha az ürün vardır.Stok Sayisi :  | " . $number . " | ";
-                return view("Home.stokyetersiz");
+            if ($productCount[$key] > $number[0]->Count) {
+                $errorMessage = "Stokta daha az ürün vardır.Stok Sayisi :  | " . $number[0]->Count . " | ";
+                return view("Home.stokyetersiz", ["errorMessage" => $errorMessage]);
             } else {
                 DB::table("fieche")->insert(["ProductDetId" => $myItems[$key], "UserId" => auth()->user()->id, "AdressId" => $userAdress[0]->id, "LineTotal" => $productPrices[$key], "counts" => $productCount[$key]]);
             }
@@ -223,7 +223,7 @@ class HomeController extends Controller
         }
         if ($request["category"] == null) {
             $durum = false;
-            $allproductList = DB::table("products")->where('isStock', 0)->get();
+            $allproductList = DB::table("products")->get();
             if ($request["id"] == null) {
                 $products =  DB::table("products")->take(6)->get();
                 $productdet =  DB::table("productdetail")->take(6)->get();

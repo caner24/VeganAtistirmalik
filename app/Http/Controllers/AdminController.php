@@ -67,6 +67,17 @@ class AdminController extends Controller
         $veriler =  DB::table("users")->get();
         return view("Admin.usermanagement", ['veriler' => $veriler]);
     }
+    public function addBanner(Request   $request)
+    {
+        $request->validate([
+            "bannerName" => "required",
+            "bannerPhoto" => "required",
+        ]);
+        $resimPath = $request->bannerPhoto->getclientoriginalname();
+        $yukle = $request->bannerPhoto->move(public_path('images'), $resimPath);
+        $imageId =  DB::table("bannerlogo")->insertGetId(["path" =>   $resimPath, 'name' => $request["bannerName"]]);
+        return view("Admin.addBanner");
+    }
     public function setFieche(Request $request)
     {
 

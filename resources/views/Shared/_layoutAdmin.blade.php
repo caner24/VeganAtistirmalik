@@ -66,6 +66,9 @@ font-size: 16px;">
                     <li>
                         <a id="commentManagement" href="{{ route('getComment') }}"><i class="fa fa-comment fa-3x"></i>Yorumlar</a>
                     </li>
+                    <li>
+                        <a id="addBanner" href="{{ route('addBanners') }}"><i class="fa fa-upload fa-3x"></i>Banner</a>
+                    </li>
                 </ul>
             </div>
         </nav>
