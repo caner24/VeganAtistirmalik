@@ -48,9 +48,8 @@ Route::middleware('auth.admin')->get("/urun-stok", [AdminController::class, 'uru
 Route::middleware('auth.admin')->get("/satis-cek", [AdminController::class, 'satistanCek'])->name('satiscek');
 Route::middleware('auth.admin')->post("/freezeuser", [AdminController::class, 'freezeUser'])->name('freeze');
 Route::middleware('auth.admin')->get("/setFieche", [AdminController::class, 'setFieche'])->name('setFieches');
-Route::middleware('auth.admin')->get("/add-banner", function () {
-    return view('Admin.addBanner');
-})->name('addBanners');
+Route::middleware('auth.admin')->get("/add-banner", [AdminController::class, 'getBanner'])->name('addBanners');
+Route::middleware('auth.admin')->get("/delete-banner", [AdminController::class, 'deleteBanner'])->name('deleteBanner');
 Route::middleware('auth.admin')->post("/set-banner", [AdminController::class, 'addBanner'])->name('setBanners');
 Route::middleware('auth')->post("/post-content", [HomeController::class, 'setComment'])->name('setComment');
 Route::middleware('auth')->post("/freeze-users", [HomeController::class, 'freezeUser'])->name('freezeUser');

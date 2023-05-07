@@ -76,7 +76,18 @@ class AdminController extends Controller
         $resimPath = $request->bannerPhoto->getclientoriginalname();
         $yukle = $request->bannerPhoto->move(public_path('images'), $resimPath);
         $imageId =  DB::table("bannerlogo")->insertGetId(["path" =>   $resimPath, 'name' => $request["bannerName"]]);
+
         return view("Admin.addBanner");
+    }
+    public function getBanner(Request   $request)
+    {
+        $veriler = DB::table("bannerlogo")->get();
+        return view("Admin.addBanner", ['veriler' => $veriler]);
+    }
+    public function deleteBanner(Request   $request)
+    {
+        DB::table("bannerlogo")->where("id", $request["datas"])->delete();
+        return redirect()->route('addBanners');
     }
     public function setFieche(Request $request)
     {
