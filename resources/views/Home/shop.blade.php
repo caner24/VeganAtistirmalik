@@ -150,37 +150,29 @@
                         <div id="pagination" class="row text-center">
                             <nav aria-label="Page navigation">
                                 <ul id="numberSection" class="pagination">
-                                    <li class="disabled">
-                                        <a href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
+
                                     <li><a href="{{ route('urungetir') }}">1</a></li>
                                     @foreach ($allproductList as $key => $value)
                                     @if ($key > 0)
                                     @if ($key % 6 == 0)
-                                    {{ $sayac++ }}
-                                    @if ($sayac > 2)
+                                    <span class="hidden"> {{ $sayac++ }}</span>
+
                                     @if($sayac==2)
-                                    <li><a href="{{ route('urungetir', ['id' => 6 ]) }}">{{ $sayac }}</a>
+                                    <li><a href="{{ route('urungetir', ['id' =>12 ]) }}">{{ $sayac }}</a>
                                     </li>
                                     @else
-                                    <li><a href="{{ route('urungetir', ['id' => 6 * $sayac]) }}">{{ $sayac }}</a>
-                                    </li>
+                                    @if ($sayac > 2)
+                                    <li><a href="{{ route('urungetir', ['id' => 6 * $sayac]) }}">{{ $sayac }}</a> </li>
+                                    @else
+                                    <li><a href="{{ route('urungetir', ['id' => 6]) }}">{{ $sayac }}</a></li>
                                     @endif
-                                    @else
-                                    <li><a href="{{ route('urungetir', ['id' => 6]) }}">{{ $sayac }}</a>
-                                    </li>
+
                                     @endif
                                     @endif
                                     @endif
                                     @endforeach
 
-                                    <li>
-                                        <a href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
+
                                 </ul>
                             </nav>
                         </div>

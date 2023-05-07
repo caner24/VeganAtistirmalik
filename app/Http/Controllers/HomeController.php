@@ -229,10 +229,10 @@ class HomeController extends Controller
                 $productdet =  DB::table("productdetail")->take(6)->get();
                 $imagess =  DB::table("images")->take(6)->get();
             } else {
-                $products =  DB::table("products")->skip((int)$request["id"])->take(6)->get();
-                $productdet =  DB::table("productdetail")->skip((int)$request["id"])->take(6)->get();
+                $products =  DB::table("products")->skip((int)$request["id"]-6)->take(6)->get();
+                $productdet =  DB::table("productdetail")->skip((int)$request["id"] -6)->take(6)->get();
 
-                $imagess =  DB::table("images")->skip((int)$request["id"])->take(6)->get();
+                $imagess =  DB::table("images")->skip((int)$request["id"] -6)->take(6)->get();
             }
         } else {
             if ($request["id"] == null) {
@@ -256,7 +256,7 @@ class HomeController extends Controller
                 $products = array();
                 $ImageArr = array();
                 $imagess = array();
-                $productdet =  DB::table("productdetail")->where("CategoryId", $request["category"])->skip((int)$request["id"])->take(6)->get();
+                $productdet =  DB::table("productdetail")->where("CategoryId", $request["category"])->skip((int)$request["id"] / 2)->take(6)->get();
                 foreach ($productdet as $key => $value) {
 
                     $productsItem =  DB::table("products")->whereId($value->ProductId)->get();
